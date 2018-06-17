@@ -2,7 +2,7 @@ package mrp.bom;
 
 import org.json.JSONObject;
 
-public class Material implements Stringable{
+public class Material implements Transformer {
     public String name;
 
     public Material(String name) {

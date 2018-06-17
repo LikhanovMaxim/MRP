@@ -7,27 +7,26 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class Component implements Stringable {
+public class Component implements Transformer {
     public String name;
     public int preparationTime;
     public Integer id;
 
-
-    public HashMap<Stringable, Integer> parts;
+    public HashMap<Transformer, Integer> parts;
 
     public Component(String name, int preparationTime) {
         this.name = name;
         this.preparationTime = preparationTime;
-        parts = new HashMap<Stringable, Integer>();
+        parts = new HashMap<Transformer, Integer>();
     }
 
     @Override
     public String stringify() {
-        String res = String.format("\"%s\", Время изготовления: %s, ",name, preparationTime);
-        for (Stringable part : parts.keySet()){
-            res += String.format("%dx[%s] ", parts.get(part), part.stringify());
+        StringBuilder res = new StringBuilder(String.format("\"%s\", Время изготовления: %s, ", name, preparationTime));
+        for (Transformer part : parts.keySet()){
+            res.append(String.format("%dx[%s] ", parts.get(part), part.stringify()));
         }
-        return res;
+        return res.toString();
     }
 
     @Override
@@ -44,7 +43,7 @@ public class Component implements Stringable {
         return res;
     }
 
-    public void addPart(Stringable part, Integer amount){
+    public void addPart(Transformer part, Integer amount){
         if(parts.get(part) != null) {
             parts.put(part, parts.get(part) + amount);
         }
@@ -53,7 +52,7 @@ public class Component implements Stringable {
         }
     }
 
-    public void removePart(Stringable part){
+    public void removePart(Transformer part){
         parts.remove(part);
     }
 
@@ -74,7 +73,7 @@ public class Component implements Stringable {
 
         JSONArray materials = new JSONArray();
 
-        for (Stringable material : parts.keySet()){
+        for (Transformer material : parts.keySet()){
             JSONObject rawMaterial = material.toJSON();
             rawMaterial.put("amount", parts.get(material));
             materials.put(rawMaterial);

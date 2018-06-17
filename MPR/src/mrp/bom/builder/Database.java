@@ -14,13 +14,13 @@ public class Database {
         if(currentDatabase == null){
             try {
                 Scanner sc = new Scanner(new File("database.json"));
-                String res = "";
+                StringBuilder res = new StringBuilder();
                 while (sc.hasNextLine()) {
-                    res += sc.nextLine();
+                    res.append(sc.nextLine());
                 }
                 sc.close();
 
-                currentDatabase = new JSONObject(res);
+                currentDatabase = new JSONObject(res.toString());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
