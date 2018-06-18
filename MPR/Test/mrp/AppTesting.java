@@ -3,52 +3,70 @@ package mrp;
 import mrp.bom.Component;
 import mrp.bom.Material;
 import mrp.bom.builder.Database;
-import org.junit.Before;
+import org.json.JSONException;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class AppTesting {
 
-    private String str = "{\"Component\":{\"count\":0}}";
+	private String str = "{\"Component\":{\"count\":0}}";
 
-    @Test
-    public void name() {
-        Database.setDefaultValue(str);
+	@Test(expected = JSONException.class)
+	public void test2() {
+		Database.setDefaultValue(str);
+		Component door = Component.find("0");
+		System.out.println(door.stringify());
+	}
 
-        Component room = new Component("Комната", 5);
-        Material handle = new Material("Обои");
-        room.addPart(handle, 10);
+	private Component getDoor() {
+		Component door = new Component("Дверь", 5);
 
-        Component door = new Component("Дверь", 5);
-        Material glass = new Material("Стекло");
-        Material wood = new Material("Дерево");
+		Material hinge = new Material("Петля");
+		Material handle = new Material("Ручка");
+		Material veneer = new Material("Шпон");
 
-        door.addPart(glass, 2);
-        door.addPart(wood, 3);
+		door.addPart(hinge, 2);
+		door.addPart(handle, 1);
+		door.addPart(veneer, 1);
+		return door;
+	}
 
-        room.addPart(door,4);
+	@Test
+	public void test1() {
+		Database.setDefaultValue(str);
 
-        room.save();
+		Component door = getDoor();
 
-        Component roomResult = Component.find("0");
+		door.save();
 
-        System.out.println(room.stringify());
-        System.out.println("Room result");
-        System.out.println(roomResult.stringify());
+		find("0");
+		//		"Дверца ДСП", Время изготовления: 5, 2x[Петля] 1x[Ручка] 1x[Шпон]
+	}
 
-//        room.removePart();
-    }
+	@Test
+	public void test3() {
+		Database.setDefaultValue(str);
 
-    @Test
-    public void test() {
-        Database.setDefaultValue(str);
-        Component room = new Component("Комната", 5);
-        Material handle = new Material("Обои");
-        room.addPart(handle, 10);
+		Component wall = new Component("Стена", 7);
+		Component door = getDoor();
+//		door.save();
+		Material wallpaper = new Material("Обои");
 
-        room.save();
-        Component roomR = Component.find("0");
-        System.out.println(room.stringify());
-    }
+		wall.addPart(door, 1);
+		wall.addPart(wallpaper, 5);
+
+		wall.save();
+
+
+		System.out.println(wall.stringify());
+
+		find("0");
+		find("1");
+
+	}
+
+	private void find(String id) {
+		Component result = Component.find(id);
+		System.out.println("Result " + id);
+		System.out.println(result.stringify());
+	}
 }
