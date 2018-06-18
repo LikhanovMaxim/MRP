@@ -1,4 +1,4 @@
-package mrp.trash;
+package mrp.active.record;
 
 public class Product {
 

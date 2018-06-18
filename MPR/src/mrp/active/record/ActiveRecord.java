@@ -1,9 +1,9 @@
-package mrp.trash;
+package mrp.active.record;
 
 import org.json.JSONObject;
 
 public interface ActiveRecord<T> {
-	void save();
+	int save();
 
 	JSONObject getTable();
 }
