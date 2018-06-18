@@ -10,8 +10,8 @@ import java.util.Scanner;
 public class Database {
     private static JSONObject currentDatabase;
 
-    public static JSONObject getCurrentDatabase(){
-        if(currentDatabase == null){
+    public static JSONObject getCurrentDatabase() {
+        if (currentDatabase == null) {
             try {
                 Scanner sc = new Scanner(new File("database.json"));
                 StringBuilder res = new StringBuilder();
@@ -29,10 +29,21 @@ public class Database {
         return currentDatabase;
     }
 
-    public static void writeCurrentDatabase(){
+    public static void writeCurrentDatabase() {
         try {
             FileWriter file = new FileWriter("database.json");
             file.write(currentDatabase.toString());
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void setDefaultValue(String defaultValue) {
+        try {
+            FileWriter file = new FileWriter("database.json");
+            file.write(defaultValue);
             file.close();
         } catch (Exception e) {
             e.printStackTrace();

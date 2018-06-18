@@ -23,7 +23,7 @@ public class Component implements Transformer {
     @Override
     public String stringify() {
         StringBuilder res = new StringBuilder(String.format("\"%s\", Время изготовления: %s, ", name, preparationTime));
-        for (Transformer part : parts.keySet()){
+        for (Transformer part : parts.keySet()) {
             res.append(String.format("%dx[%s] ", parts.get(part), part.stringify()));
         }
         return res.toString();
@@ -32,38 +32,37 @@ public class Component implements Transformer {
     @Override
     public JSONObject toJSON() {
         Integer _id;
-        if(this.id == null){
+        if (this.id == null) {
             _id = this.save();
-        }else{
+        } else {
             _id = this.id;
         }
         JSONObject res = new JSONObject();
-        res.put("id",_id.toString());
+        res.put("id", _id.toString());
 
         return res;
     }
 
-    public void addPart(Transformer part, Integer amount){
-        if(parts.get(part) != null) {
+    public void addPart(Transformer part, Integer amount) {
+        if (parts.get(part) != null) {
             parts.put(part, parts.get(part) + amount);
-        }
-        else{
+        } else {
             parts.put(part, amount);
         }
     }
 
-    public void removePart(Transformer part){
+    public void removePart(Transformer part) {
         parts.remove(part);
     }
 
     public int save() {
         boolean newly = false;
-        if(id == null){
+        if (id == null) {
             id = getTable().getInt("count");
             newly = true;
         }
 
-        if (newly){
+        if (newly) {
             getTable().put("count", getTable().getInt("count") + 1);
         }
 
@@ -73,7 +72,7 @@ public class Component implements Transformer {
 
         JSONArray materials = new JSONArray();
 
-        for (Transformer material : parts.keySet()){
+        for (Transformer material : parts.keySet()) {
             JSONObject rawMaterial = material.toJSON();
             rawMaterial.put("amount", parts.get(material));
             materials.put(rawMaterial);
@@ -92,7 +91,7 @@ public class Component implements Transformer {
         return Database.getCurrentDatabase().getJSONObject("Component");
     }
 
-    public static Component find(String id){
+    public static Component find(String id) {
         JSONObject rawSelf = getTable().getJSONObject(id);
 
         String name = rawSelf.getString("name");
@@ -102,15 +101,15 @@ public class Component implements Transformer {
 
         JSONArray materials = rawSelf.getJSONArray("materials");
 
-        for (int i = 0; i < materials.length(); i++){
+        for (int i = 0; i < materials.length(); i++) {
             JSONObject item = materials.getJSONObject(i);
-            if (item.opt("id") == null){//Это материал
+            if (item.opt("id") == null) {//Это материал
                 MaterialDirector director = new MaterialDirector();
                 Material material = director.constructMaterialFromJSON(item);
 
                 res.addPart(material, item.getInt("amount"));
 
-            }else{//Это компонент
+            } else {//Это компонент
                 Component component = Component.find(item.getString("id"));
                 res.addPart(component, item.getInt("amount"));
             }
