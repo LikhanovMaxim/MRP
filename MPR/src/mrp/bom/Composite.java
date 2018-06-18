@@ -3,6 +3,7 @@ package mrp.bom;
 import mrp.bom.builder.Database;
 import mrp.bom.builder.MaterialDirector;
 import mrp.active.record.ActiveRecord;
+import mrp.bom.visitor.Visitor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -44,6 +45,11 @@ public class Composite implements Component, ActiveRecord {
 		res.put("id", _id.toString());
 
 		return res;
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+
 	}
 
 	public void add(Component item, Integer amount) {
