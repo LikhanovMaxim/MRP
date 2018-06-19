@@ -7,19 +7,19 @@ import mrp.bom.Component;
  */
 public class VisitorImpl implements Visitor {
 
-	public void visit(Component... components){
-		for (Component component : components) {
-			component.accept(this);
-		}
-	}
+    public void visit(Component... components) {
+        for (Component component : components) {
+            component.accept(this);
+        }
+    }
 
-	@Override
-	public void visitComposite() {
+    @Override
+    public void visitComposite() {
 
-	}
+    }
 
-	@Override
-	public void visitMaterial() {
+    @Override
+    public void visitMaterial() {
 
-	}
+    }
 }

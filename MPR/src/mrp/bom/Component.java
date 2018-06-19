@@ -4,9 +4,9 @@ import mrp.bom.visitor.Visitor;
 import org.json.JSONObject;
 
 public interface Component {
-	String stringify();
+    String stringify();
 
-	JSONObject toJSON();
+    JSONObject toJSON();
 
-	public void accept(Visitor visitor);
+    public void accept(Visitor visitor);
 }

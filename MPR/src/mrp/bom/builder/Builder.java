@@ -1,10 +1,8 @@
 package mrp.bom.builder;
 
-import mrp.bom.Composite;
-
 public interface Builder {
-	void reset();
+    void reset();
 
-	void build();
+    void build();
 
 }

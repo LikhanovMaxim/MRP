@@ -4,7 +4,7 @@ import mrp.bom.Composite;
 import org.json.JSONObject;
 
 public interface ActiveRecord<T> {
-	int save(Composite composite);
+    int save(Composite composite);
 
-	JSONObject getTable();
+    JSONObject getTable();
 }

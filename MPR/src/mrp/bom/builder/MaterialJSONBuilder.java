@@ -9,9 +9,7 @@ import org.json.JSONObject;
 
 public class MaterialJSONBuilder implements Builder {
 
-    //    private Material material;
     private Composite res;
-    //    private JSONObject rawMaterial;
     private String id;
 
     private ActiveRecord activeRecord;
@@ -21,21 +19,18 @@ public class MaterialJSONBuilder implements Builder {
 
     public MaterialJSONBuilder(String id) {
         this.id = id;
-//        this.rawMaterial = rawMaterial;
-        res = new Composite();
-        reset();
         activeRecord = new ActiveRecordImpl();
+        reset();
     }
 
     @Override
     public void reset() {
-
+        res = new Composite();
 //        material = new Material("");
     }
 
     @Override
     public void build() {
-        //TODO make from json
         JSONObject rawSelf = activeRecord.getTable().getJSONObject(id);
 
         String name = rawSelf.getString("name");
@@ -48,13 +43,8 @@ public class MaterialJSONBuilder implements Builder {
         for (int i = 0; i < materials.length(); i++) {
             JSONObject item = materials.getJSONObject(i);
             if (isMaterial(item.opt("id"))) {//Это материал
-                JSONObject rawMaterial = item ;
-                Material material = new Material("");
-                material.name = rawMaterial.getString("name");
-//
-//                Director director = new Director();
-//                Material material = director.constructMaterialFromJSON(item);
-
+                Material material = MaterialFlyweight.find(item.getString("name"));
+//                Material material = new Material(item.getString("name"));
                 res.add(material, item.getInt("amount"));
             } else {//Это компонент
                 MaterialJSONBuilder a = new MaterialJSONBuilder(item.getString("id"));
@@ -63,10 +53,6 @@ public class MaterialJSONBuilder implements Builder {
                 res.add(component, item.getInt("amount"));
             }
         }
-
-//        return res;
-
-//        material.name = rawMaterial.getString("name");
     }
 
     private static boolean isMaterial(Object id) {

@@ -1,7 +1,7 @@
 package mrp;
 
 public class App {
-	public static void main(String[] args) {
-		System.out.println("asd");
-	}
+    public static void main(String[] args) {
+        System.out.println("asd");
+    }
 }

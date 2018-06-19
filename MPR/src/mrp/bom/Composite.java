@@ -1,7 +1,7 @@
 package mrp.bom;
 
-import mrp.active.record.ActiveRecordImpl;
 import mrp.active.record.ActiveRecord;
+import mrp.active.record.ActiveRecordImpl;
 import mrp.bom.visitor.Visitor;
 import org.json.JSONObject;
 
