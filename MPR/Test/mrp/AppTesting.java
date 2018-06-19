@@ -20,8 +20,6 @@ public class AppTesting {
         Database.setNullToJSONFile(str);
         Builder builder = new MaterialJSONBuilder("0");
         builder.build();
-//		Composite door = ((MaterialJSONBuilder) builder).getResult();
-//		System.out.println(door.stringify());
     }
 
     private Composite getDoor() {
@@ -86,6 +84,7 @@ public class AppTesting {
 
     @Test
     public void testFlyweight() {
+        // prepare JSON file
         Database.setNullToJSONFile(str);
         Composite room = new Composite("Комната", 10);
         for (int i = 0; i < 3; i++) {
@@ -94,7 +93,7 @@ public class AppTesting {
         }
         activeRecord.save(room);
 
-
+        // build by json file
         String id = "0";
         Composite res = buildFromJSON(id);
         System.out.println("Result " + id);
