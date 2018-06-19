@@ -1,4 +1,4 @@
-package mrp.bom.builder;
+package mrp.active.record;
 
 import org.json.JSONObject;
 
@@ -48,7 +48,6 @@ public class Database {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public static void setDefaultValue(String defaultValue)  {

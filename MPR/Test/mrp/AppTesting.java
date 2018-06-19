@@ -1,20 +1,27 @@
 package mrp;
 
+import mrp.active.record.ActiveRecord;
+import mrp.active.record.ActiveRecordImpl;
 import mrp.bom.Composite;
 import mrp.bom.Material;
-import mrp.bom.builder.Database;
+import mrp.bom.builder.Builder;
+import mrp.active.record.Database;
+import mrp.bom.builder.MaterialJSONBuilder;
 import org.json.JSONException;
 import org.junit.Test;
 
 public class AppTesting {
 
 	private String str = "{\"Composite\":{\"count\":0}}";
+	private ActiveRecord activeRecord = new ActiveRecordImpl();
 
 	@Test(expected = JSONException.class)
 	public void test2() {
 		Database.setDefaultValue(str);
-		Composite door = new Composite().find("0");
-		System.out.println(door.stringify());
+		Builder builder = new MaterialJSONBuilder("0");
+		builder.build();
+//		Composite door = ((MaterialJSONBuilder) builder).getResult();
+//		System.out.println(door.stringify());
 	}
 
 	private Composite getDoor() {
@@ -30,43 +37,50 @@ public class AppTesting {
 		return door;
 	}
 
+	private Composite buildFromJSON(String id) {
+		Builder builder = new MaterialJSONBuilder(id);
+		builder.build();
+		return  ((MaterialJSONBuilder) builder).getResult();
+	}
+
+	private void buildAndPrint(String id) {
+		Composite res = buildFromJSON(id);
+		System.out.println("Result " + id);
+		System.out.println(res.stringify());
+	}
+
 	@Test
 	public void test1() {
+		// prepare JSON file
 		Database.setDefaultValue(str);
-
 		Composite door = getDoor();
-
-		door.save();
-
-		find("0");
+		activeRecord.save(door);
+		// build by json file
+		String id = "0";
+		Composite res = buildFromJSON(id);
+		System.out.println("Result " + id);
+		System.out.println(res.stringify());
 		//		"Дверца ДСП", Время изготовления: 5, 2x[Петля] 1x[Ручка] 1x[Шпон]
 	}
 
 	@Test
 	public void test3() {
+		// prepare JSON file
 		Database.setDefaultValue(str);
 
 		Composite wall = new Composite("Стена", 7);
 		Composite door = getDoor();
-//		door.save();
+		activeRecord.save(door);
 		Material wallpaper = new Material("Обои");
 
 		wall.add(door, 1);
 		wall.add(wallpaper, 5);
+		activeRecord.save(wall);
 
-		wall.save();
-
-
-		System.out.println(wall.stringify());
-
-		find("0");
-		find("1");
-
-	}
-
-	private void find(String id) {
-		Composite result = new Composite().find(id);
+		// build by json file
+		String id = "1";
+		Composite res = buildFromJSON(id);
 		System.out.println("Result " + id);
-		System.out.println(result.stringify());
+		System.out.println(res.stringify());
 	}
 }
