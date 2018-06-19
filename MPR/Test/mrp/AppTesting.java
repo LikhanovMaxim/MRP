@@ -20,6 +20,7 @@ public class AppTesting {
         Database.setNullToJSONFile(str);
         Builder builder = new MaterialJSONBuilder("0");
         builder.build();
+        ((MaterialJSONBuilder) builder).getResult();
     }
 
     private Composite getDoor() {
