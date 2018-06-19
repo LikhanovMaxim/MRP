@@ -87,10 +87,8 @@ public class AppTesting {
     @Test
     public void testFlyweight() {
         Database.setNullToJSONFile(str);
-//        Composite doors[] = new Composite[3];
         Composite room = new Composite("Комната", 10);
         for (int i = 0; i < 3; i++) {
-//            doors[i] = getDoor();
             Composite door = getDoor();
             room.add(door, 4);
         }
