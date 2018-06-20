@@ -6,7 +6,7 @@ import mrp.active.record.Database;
 import mrp.bom.Composite;
 import mrp.bom.Material;
 import mrp.bom.builder.Builder;
-import mrp.bom.builder.MaterialJSONBuilder;
+import mrp.bom.builder.CompositeJSONBuilder;
 import org.json.JSONException;
 import org.junit.Test;
 
@@ -18,9 +18,9 @@ public class AppTesting {
     @Test(expected = JSONException.class)
     public void test2() {
         Database.setNullToJSONFile(str);
-        Builder builder = new MaterialJSONBuilder("0");
+        Builder builder = new CompositeJSONBuilder("0");
         builder.build();
-        ((MaterialJSONBuilder) builder).getResult();
+        ((CompositeJSONBuilder) builder).getResult();
     }
 
     private Composite getDoor() {
@@ -37,9 +37,9 @@ public class AppTesting {
     }
 
     private Composite buildFromJSON(String id) {
-        Builder builder = new MaterialJSONBuilder(id);
+        Builder builder = new CompositeJSONBuilder(id);
         builder.build();
-        return ((MaterialJSONBuilder) builder).getResult();
+        return ((CompositeJSONBuilder) builder).getResult();
     }
 
     private void buildAndPrint(String id) {
