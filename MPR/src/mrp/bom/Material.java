@@ -14,6 +14,7 @@ public class Material implements Component { //Leaf
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+
     public Material(String name) {
         this.name = name;
     }

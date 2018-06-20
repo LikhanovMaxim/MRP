@@ -8,9 +8,9 @@ public interface Component {
 
     JSONObject toJSON();
 
-
     public Integer getAmount() ;
 
     public void setAmount(Integer amount);
+
     public void accept(Visitor visitor);
 }

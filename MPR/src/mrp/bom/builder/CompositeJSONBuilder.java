@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CompositeJSONBuilder implements Builder {
-	private static final String _ID = "id";
+	private static final String ID_ = "id";
 	private static final String AMOUNT = "amount";
 	private static final String NAME = "name";
 	private static final String MATERIALS = "materials";
@@ -44,16 +44,16 @@ public class CompositeJSONBuilder implements Builder {
 
 		for (int i = 0; i < materials.length(); i++) {
 			JSONObject item = materials.getJSONObject(i);
-			if (isMaterial(item.opt(_ID))) {
+			if (isMaterial(item.opt(ID_))) {
 				res.add(MaterialFlyweight.find(item.getString(NAME)), item.getInt(AMOUNT));
 			} else {//Это композит
-				res.add(CompositeFlyweight.find(getFindingName(item), item.getString(_ID)), item.getInt(AMOUNT));
+				res.add(CompositeFlyweight.find(getFindingName(item), item.getString(ID_)), item.getInt(AMOUNT));
 			}
 		}
 	}
 
 	private String getFindingName(JSONObject item) {
-		return activeRecord.getTable().getJSONObject(item.getString(_ID)).getString(NAME);
+		return activeRecord.getTable().getJSONObject(item.getString(ID_)).getString(NAME);
 	}
 
 	private static boolean isMaterial(Object id) {
