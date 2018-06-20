@@ -50,10 +50,11 @@ public class AppTesting {
 
     @Test
     public void test1() {
-        // prepare JSON file
+        // create JSON file
         Database.setNullToJSONFile(str);
         Composite door = getDoor();
         activeRecord.save(door);
+
         // build by json file
         String id = "0";
         Composite res = buildFromJSON(id);
@@ -64,7 +65,7 @@ public class AppTesting {
 
     @Test
     public void test3() {
-        // prepare JSON file
+        // create JSON file
         Database.setNullToJSONFile(str);
 
         Composite wall = new Composite("Стена", 7);
@@ -81,11 +82,12 @@ public class AppTesting {
         Composite res = buildFromJSON(id);
         System.out.println("Result " + id);
         System.out.println(res.stringify());
+//        "Стена", Время изготовления: 7, 1x["Дверь", Время изготовления: 5, 2x[Петля] 1x[Ручка] 1x[Шпон] ] 5x[Обои]
     }
 
     @Test
     public void testFlyweight() {
-        // prepare JSON file
+        // create JSON file
         Database.setNullToJSONFile(str);
         Composite room = new Composite("Комната", 10);
         for (int i = 0; i < 3; i++) {
@@ -99,5 +101,6 @@ public class AppTesting {
         Composite res = buildFromJSON(id);
         System.out.println("Result " + id);
         System.out.println(res.stringify());
+//        "Комната", Время изготовления: 10, 4x["Дверь", Время изготовления: 5, 1x[Ручка] 1x[Шпон] 2x[Петля] ] 4x["Дверь", Время изготовления: 5, 1x[Ручка] 1x[Шпон] 2x[Петля] ] 4x["Дверь", Время изготовления: 5, 1x[Ручка] 1x[Шпон] 2x[Петля] ]
     }
 }

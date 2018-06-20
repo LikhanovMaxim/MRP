@@ -16,11 +16,13 @@ public class CompositeFlyweight {
 		composite = new HashMap<>();
 	}
 
-	public static Composite find(String name, int preparationTime) {
+	public static Composite find(String name, String id) {
 		Composite result = composite.get(name);
 		if (result == null) {
-			result = new Composite(name, preparationTime);
-			composite.put(name, result);
+			CompositeJSONBuilder builder = new CompositeJSONBuilder(id);
+			builder.build();
+			result = builder.getResult();
+			composite.put(result.getName(), result);
 		}
 		return result;
 	}

@@ -5,7 +5,15 @@ import org.json.JSONObject;
 
 public class Material implements Component { //Leaf
     public String name;
+    private Integer amount;
 
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
     public Material(String name) {
         this.name = name;
     }

@@ -25,9 +25,9 @@ public class ActiveRecordImpl implements ActiveRecord {
 
         JSONArray materials = new JSONArray();
 
-        for (Component material : composite.getParts().keySet()) {
+        for (Component material : composite.getParts()) {
             JSONObject rawMaterial = material.toJSON();
-            rawMaterial.put("amount", composite.getParts().get(material));
+            rawMaterial.put("amount", material.getAmount());
             materials.put(rawMaterial);
         }
 

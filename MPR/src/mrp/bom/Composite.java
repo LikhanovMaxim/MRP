@@ -5,19 +5,30 @@ import mrp.active.record.ActiveRecordImpl;
 import mrp.bom.visitor.Visitor;
 import org.json.JSONObject;
 
-import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Composite implements Component {
     private String name;
     private int preparationTime;
     private Integer id;
-    private HashMap<Component, Integer> parts;
+    private Integer amount;
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    private List<Component> parts;
     private ActiveRecord activeRecord;
 
     public Composite(String name, int preparationTime) {
         this.name = name;
         this.preparationTime = preparationTime;
-        parts = new HashMap<Component, Integer>();
+        parts = new LinkedList<>();
         activeRecord = new ActiveRecordImpl();
     }
 
@@ -27,8 +38,8 @@ public class Composite implements Component {
     @Override
     public String stringify() {
         StringBuilder res = new StringBuilder(String.format("\"%s\", Время изготовления: %s, ", name, preparationTime));
-        for (Component part : parts.keySet()) {
-            res.append(String.format("%dx[%s] ", parts.get(part), part.stringify()));
+        for (Component part : parts) {
+            res.append(String.format("%dx[%s] ", part.getAmount(), part.stringify()));
         }
         return res.toString();
     }
@@ -48,11 +59,8 @@ public class Composite implements Component {
     }
 
     public void add(Component item, Integer amount) {
-        if (parts.get(item) != null) {
-            parts.put(item, parts.get(item) + amount);
-        } else {
-            parts.put(item, amount);
-        }
+        item.setAmount(amount);
+        parts.add(item);
     }
 
     public void remove(Component part) {
@@ -89,11 +97,11 @@ public class Composite implements Component {
         this.id = id;
     }
 
-    public HashMap<Component, Integer> getParts() {
+    public List<Component> getParts() {
         return parts;
     }
 
-    public void setParts(HashMap<Component, Integer> parts) {
+    public void setParts(List<Component> parts) {
         this.parts = parts;
     }
 

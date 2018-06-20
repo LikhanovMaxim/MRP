@@ -4,5 +4,4 @@ public interface Builder {
     void reset();
 
     void build();
-
 }

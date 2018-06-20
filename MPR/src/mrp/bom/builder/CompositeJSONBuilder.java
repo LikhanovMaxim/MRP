@@ -47,19 +47,13 @@ public class CompositeJSONBuilder implements Builder {
 			if (isMaterial(item.opt(_ID))) {
 				res.add(MaterialFlyweight.find(item.getString(NAME)), item.getInt(AMOUNT));
 			} else {//Это композит
-				res.add(createSubComposite(item), item.getInt(AMOUNT));
+				res.add(CompositeFlyweight.find(getFindingName(item), item.getString(_ID)), item.getInt(AMOUNT));
 			}
 		}
 	}
 
-	private Composite createSubComposite(JSONObject item) {
-//		res = CompositeFlyweight.find(rawSelf.getString(NAME), preparationTime);
-//		if (res != null) {
-//			return;
-//		}
-		CompositeJSONBuilder builder = new CompositeJSONBuilder(item.getString(_ID));
-		builder.build();
-		return builder.getResult();
+	private String getFindingName(JSONObject item) {
+		return activeRecord.getTable().getJSONObject(item.getString(_ID)).getString(NAME);
 	}
 
 	private static boolean isMaterial(Object id) {
